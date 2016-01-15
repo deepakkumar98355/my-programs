@@ -1,0 +1,781 @@
+1.calculateSal
+Read the question carefully and follow the input and output format.
+
+Karen got salary for this month and she spends 20% of her salary for food and 30% of her salary for travel. If she takes care of other shifts she will get 2% of the salary per day. Given her salary and the number of shifts she handled. Calculate how much she can save in her pocket after spending all these?
+
+Input and Output Format :
+First line of input consists of an integer, salary. Next line correspond to the number of shifts. Output consist of an integer, which is saving.
+
+1) Print "Salary too large" when salary is greater than 8000.
+2) Print "Shifts too small" when the shift is less than 0.
+3) Print "Salary too small" when the salary is less than 0.
+
+Include a function named calculateSal(int salary, int shifts) whose return type is an integer, which is the saving.
+
+Sample Input 1:
+7000
+5
+Sample Output 1:
+4200
+
+Sample Input 2:
+8001
+
+Sample Output 2:
+Salary too large
+
+
+#include<stdio.h>
+#include<stdlib.h>
+int calculateSal(int, int);
+int main(){
+	int salary=0,shifts=0,savings=0;
+	scanf("%d",&salary);
+	scanf("%d",&shifts);
+	if(salary>8000)
+		printf("Salary too large\n");
+	else if(shifts<0)
+		printf("Shifts too small\n");
+	else if(salary<0)
+		printf("Salary too small");
+	else{
+		savings = calculateSal(salary,shifts);
+		printf("%d",savings);
+	}
+	getchar();
+	getchar();
+	return 0;
+}
+int calculateSal(int salary, int shifts){
+	int saving=0;
+	saving = (salary*0.5)+(salary*0.02*shifts);
+	return saving;
+}
+
+2.Repeated Salary Count
+ 
+John is working as a clerk in an organization where N number of people are working. His boss has asked him to get the count of employees who get same salary. Help him to get the count of repeated salary.
+ 
+Include a function named countRepeaters that accepts 2 arguments and returns an int. The first argument is the input array and the second argument is an int that corresponds to the size of the array. The function returns an int that corresponds to the number of repeaters.
+ 
+If the size of the array is negative or if any of the array elements are negative, print “Invalid Input” and terminate the program.
+ 
+Input and Output Format:
+Input consists of n+1 integers. The first integer corresponds to n, the number of elements in the array. The next 'n' integers correspond to the elements in the array.
+Output consists of an integer that corresponds to the number of repeaters.
+ 
+Assume that utmost one element in the array would repeat.
+Assume that the maximum number of elements in the array is 20.
+ 
+Sample Input 1:
+5
+1000
+2000
+3500
+2000
+5000
+ 
+Sample Output 1:
+2
+ 
+Sample Input 2:
+-5
+ 
+Sample Output 2:
+Invalid Input
+ 
+Sample Input 3:
+5
+1000
+-2000
+
+Sample Output 3:
+Invalid Input
+ 
+ 
+
+#include<stdio.h>
+#include<stdlib.h>
+int countRepeaters(int[],int);
+int main(){
+	int n=0,input[20]={0},i,flag=0,No_of_elements=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+	scanf("%d",&input[i]);
+	if(input[i]<0)
+		flag=1;
+	}
+	if(flag==1){
+		printf("Invalid input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	No_of_elements = countRepeaters(input,n);
+	printf("%d",No_of_elements);
+	getchar();
+	getchar();
+	return 0;
+}
+int countRepeaters(int in[],int size){
+	int elements_count=1,i,j,out[20],k=0;
+	for(i=0;i<size;i++){
+		for(j=i+1;j<size;){
+			if(in[i]==in[j]){
+				elements_count++;
+				for(k=j;k<size;k++)
+					in[k]=in[k+1];
+				size--;
+			}
+			else
+				j++;
+		}
+	}
+	return elements_count;
+}
+
+
+
+3.maximumSum
+Read the question carefully and follow the input and output format.
+
+Given an Integer array, find out sum of Even and odd Numbers individually and find the maximum.
+
+Input and Output Format :
+First line of input consists of n, the number of elements. Next n lines correspond to the array elements. Output consist of maximum of odd and even sum.
+
+1) Print "Invalid array size" when size of the array is a negative number and terminate the program.
+2) Print "Invalid input" when there is any negative numbers available in the input array and terminate the program.
+
+
+Include a function named maximumSum(int numbers[], int size) whose return type is an integer,.
+
+Sample Input 1:
+5
+12
+13
+14
+15
+16
+
+Sample Output 1:
+42
+
+Sample Input 2:
+-13
+
+Sample Output 2:
+Invalid array size
+
+#include<stdio.h>
+#include<stdlib.h>
+int maximumSum(int[],int);
+int main(){
+	int n=0,i,flag=0,input[20],max=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid array size");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+	scanf("%d",&input[i]);
+	if(input[i]<0)
+		flag=1;
+	}
+	if(flag==1){
+		printf("Invalid input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	max = maximumSum(input,n);
+	printf("%d",max);
+	getchar();
+	getchar();
+	return 0;
+}
+int maximumSum(int numbers[], int size){
+	int i=0,max=0,evensum=0,oddsum=0;
+	for(i=0;i<size;i++){
+		if(numbers[i]%2==0)
+			evensum = evensum + numbers[i];
+		else
+			oddsum = oddsum + numbers[i];
+		if(evensum>oddsum)
+			max = evensum;
+		else
+			max=oddsum;
+	}
+	return max;
+}
+4.Product of Digits
+ 
+In a car racing video game, the car is an object. You can drive the car, turn the car, or stop the car when needed but you need to drive long. You will get money according to the Km you have travelled. For example if you have travelled 123 km then the product of the km (ie 1*2*3 = 6) would be the amount you win. Write a program to find the product of the digits in the given input number.
+ 
+Include a function named productDigits that accepts an integer argument and returns an integer that corresponds to the product of digits in the integer.
+The function returns -1 if the input number is negative or greater than 32767.
+ 
+If the function returns -1, print Invalid Input.
+ 
+Input and Output Format:
+Input consists of an integer.
+Output consists of an integer.
+Refer sample output for formatting specifications.
+ 
+ 
+Sample Input 1:
+32
+ 
+ 
+Sample Output 1:
+6
+ 
+Sample Input 2:
+-67
+ 
+Sample Output 2:
+Invalid Input
+ 
+#include<stdio.h>
+#include<stdlib.h>
+int productDigits(int);
+int main(){
+	int n=0,result=0;
+	scanf("%d",&n);
+	result = productDigits(n);
+	if(result==-1)
+		printf("Invalid Input");
+	else
+		printf("%d",result);
+	getchar();
+	getchar();
+	return 0;
+}
+int productDigits(int number){
+	int num=1;
+	signed int res=0;
+	if((number<0) || (number>32767))
+		res = -1;
+	else{
+		while(number!=0){
+			num=num*(number%10);
+			number = number/10;
+		}
+		res = num;
+	}
+	return res;
+}
+
+5.findCricketerId
+Read the question carefully and follow the input and output format.
+
+Given an input array first Index indicates the cricketer’s id and second index indicates the score and so on……Find out the cricketer's id who scored more than given score
+
+Input and Output Format :
+First line of input consists of n, the number of elements. Next n lines correspond to the array elements.The next line of the input consists of an integer that corresponds to the given score. Output consist of an integer array, which contains cricketer's id who have scored more than the given score.
+
+1) Print "Invalid array size" when size of the array is negative and terminate the program .
+2) Print "Invalid input" when there is any negative numbers available in the input array and terminate the program.
+3) Print "Invalid score" when the score is negative.
+
+Include a function named findCricketerId(int array[], int size, int score) whose return type is void.
+The output array is stored in a global variable named cricketer.
+
+Sample Input 1:
+6
+1
+1000
+5
+2000
+3
+4000
+1000
+
+Sample Output 1:
+5
+3
+
+Sample Input 2:
+6
+1
+1000
+5
+3000
+3
+4000
+-1000
+
+Sample Output 2:
+Invalid score
+#include<stdio.h>
+#include<stdlib.h>
+int cricketer[20];
+void findCricketerId(int[], int, int);
+int main(){
+	int n=0,score=0,input[30],i,flag=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid array size");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+		scanf("%d",&input[i]);
+		if(input[i]<0)
+			flag=1;
+	}
+	if(flag==1){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	scanf("%d",&score);
+	if(score<0){
+		printf("Invalid score");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	findCricketerId(input,n,score);
+	getchar();
+	return 0;
+}
+void findCricketerId(int array[], int size, int score){
+	int i,j=0;
+	for(i=1;i<size;i=i+1){
+		if(array[i]>score){
+			cricketer[j]=array[i-1];
+			j++;
+		}
+	}
+	for(i=0;i<j;i++){
+		printf("%d\n",cricketer[i]);
+	}
+	getchar();
+	getchar();
+}
+6.Fahrenhiet to Centigrade
+ 
+Write a program to convert given temperature from Fahrenheit to Centigrade.
+ 
+Formula:
+C/5 = (F-32)/9
+C stands for Centigrade.
+F stands for Fahrenheit.
+ 
+Include a function named convertToCentigrade that accepts an integer argument and returns a float that corresponds to the centigrade equivalent.
+ 
+If the input is a negative number, print Invalid Input and terminate the program.
+ 
+Input and Output Format:
+Input consists of a single integer.
+Output consists of a floating point number that corresponds to the centigrade equivalent. The output is displayed correct to 2 decimal places.
+ 
+ 
+Sample Input 1:
+77
+ 
+Sample Output 1:
+25.00
+ 
+Sample Input 2:
+-2345
+ 
+Sample Output 2:
+Invalid Input
+ #include<stdio.h>
+#include<stdlib.h>
+float convertToCentigrade(int);
+int main(){
+	int f=0;
+	float res=0.0f;
+	scanf("%d",&f);
+	if(f<0){
+		printf("Invalid input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	res = convertToCentigrade(f);
+	printf("%0.2f",res);
+	getchar();
+	getchar();
+	return 0;
+}
+float convertToCentigrade(int fah){
+	float centigrade=0.0f;
+	centigrade = float(fah-32)/9.0f*5;
+	return centigrade;
+}
+
+
+7.highestFeedBack
+Read the question carefully and follow the input and output format.
+
+In a company there are some managers working on two different projects (MetLife and Hardfort). When the feedback was taken their feedback was present in both MetLife Feedback as well as Hardfort Feedback. Write a method to create a consolidated feedback for the managers for MetLife and HardForts. For those working on both the projects the highest feedback is taken. In the 2 given arrays, the First Index represents the Employee id and second one Represents The Feed Back Score and so on....
+
+Input and Output Format:
+First line corresponds to n, the size of the array. The next n lines correspond to the elements of the first array. The next n lines correspond to the elements in the second array. Output corresponds to the consolidated feedback score.
+
+1) Print "Invalid array size" when size of the array is a negative number and terminate the program
+2) Print "Invalid input" when there is any negative number available in the input array and terminate the program
+
+Include a function named highestFeedBack(int metlife[],int hardfort[],int size) whose return type is void.
+The output array is stored in a global variable named fedback.
+
+Sample Input 1:
+8
+1
+90
+2
+75
+3
+92
+5
+85
+1
+80
+2
+85
+3
+80
+4
+85
+Sample Output 1:
+1
+90
+2
+85
+3
+92
+5
+85
+4
+85
+
+Sample Input 2:
+5
+5
+8
+9
+1
+-6
+Sample Output 2:
+Invalid number
+
+Sample Input 3:
+-4
+Sample Output 3:
+Invalid array size
+#include<stdio.h>
+#include<stdlib.h>
+int fedback[30];
+void highestFeedBack(int[],int[],int);
+int main(){
+	int size=0,input1[20],input2[20],i=0;
+	int flag1=0,flag2=0;
+	scanf("%d",&size);
+	if(size<0){
+		printf("Invalid array size");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<size;i++){
+		scanf("%d",&input1[i]);
+		if(input1[i]<0)
+			flag1=1;
+	}
+	for(i=0;i<size;i++){
+		scanf("%d",&input2[i]);
+		if(input2[i]<0)
+			flag2=1;
+	}
+	if(flag1==1 || flag2==1){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	highestFeedBack(input1,input2,size);
+	
+	return 0;
+}
+void highestFeedBack(int metlife[],int hardfort[],int size){
+	int i=0,j=0,k=0,count=0,count1=0;
+	for(i=0;i<size;i=i+2){
+		count=0;
+		for(j=0;j<size;j=j+2){
+			if(metlife[i]==hardfort[j]){
+				count=1;
+				if(metlife[i+1]>hardfort[j+1]){
+					fedback[k]=metlife[i];
+					fedback[++k]=metlife[i+1];
+					k++;
+				}
+				else{
+					fedback[k]=metlife[i];
+					fedback[++k]=hardfort[j+1];
+					k++;
+				}
+			}
+		}
+		if(count==0){
+			fedback[k]=metlife[i];
+			fedback[++k]=metlife[i+1];
+			k++;
+		}
+	}
+	for(i=0;i<size;i=i+2){
+		count1=0;
+		for(j=0;j<size;j=j+2){
+			if(hardfort[i]==metlife[j]){
+				count1=1;
+			}
+		}
+		if(count1!=1){
+			fedback[k]=hardfort[i];
+			fedback[++k]=hardfort[i+1];
+			k++;
+		}
+	}
+	for(i=0;i<k;i++){
+		printf("%d\n",fedback[i]);
+	}
+
+	getchar();
+	getchar();
+}
+
+8.primeIndexSum
+Read the question carefully and follow the input and output format.
+
+Given an Integer array. Find the average of the numbers located on the Prime Indexes of the Array. Consider 0 index as 1 and 1 index is 2 and so on……
+
+Hint :Consider 1 is not a prime number
+
+Input and Output Format :
+First line of input consists of n, the number of elements. Next n lines correspond to the array elements . Output consists of an Integer, the prime index sum.
+
+1) Print "Invalid array size" when size of the array is a negative number.
+2) Print "Invalid input" when there is any negative numbers available in the input array.
+
+Include a function named primeIndexSum(int array[], int size) whose return type is an integer,which is the sum.
+
+Sample Input 1:
+7
+2
+4
+5
+1
+9
+3
+8
+
+Sample Output 1:
+6
+
+Sample Input 2:
+-7
+
+Sample Output 2:
+Invalid array size
+
+
+#include<stdio.h>
+#include<stdlib.h>
+int primeIndexSum(int[], int);
+int main(){
+	int n=0,flag=0,i,input[30];
+	int avg=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid array size");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=1;i<=n;i++){
+		scanf("%d",&input[i]);
+		if(input[i]<0)
+			flag=1;
+	}
+	if(flag==1){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	avg = primeIndexSum(input,n);
+	printf("%d",avg);
+	getchar();
+	getchar();
+	return 0;
+}
+int primeIndexSum(int array[], int size){
+	int sum=0,i,j=0,count=0,temp=0,avg=0;
+	for(i=2;i<=size;i++){
+		count=0;
+		for(j=1;j<=i;j++){
+			if(i%j==0)
+				count++;
+		}
+		if(count==2){
+			sum = sum+array[i];
+			temp++;
+		}
+		else
+			continue;
+	}
+	avg=sum/temp;
+	return avg;
+}
+9.Element Count
+ 
+Write a program to find the number of times a particular number occurs in a given input array.
+ 
+Include a function named findElementCount that accepts 3 arguments and returns an int. The first argument is the input array, the second argument is an int that corresponds to the size of the array and the third argument is the element to be searched for. The function returns an int that corresponds to the number of times the search element occurs in the array.
+ 
+If the size of the array is negative or if any element in the array is negative, print “Invalid Input” and terminate the program.
+ 
+Input and Output Format:
+Input consists of n+2 integers. The first integer corresponds to n, the number of elements in the array. The next 'n' integers correspond to the elements in the array. The last integer corresponds to the element whose count needs to be found.
+Output consists of an integer that corresponds to the number of times the search element occurs in the array.
+Assume that the maximum number of elements in the array is 20.
+ 
+ 
+Sample Input 1:
+8
+2
+1
+3
+8
+6
+8
+10
+8
+8
+ 
+Sample Output 1:
+3
+ 
+Sample Input 2:
+-5
+ 
+Sample Output 2:
+Invalid Input
+ 
+Sample Input 3:
+5
+23
+2
+-200
+ 
+Sample Output 3:
+Invalid Input
+ 
+
+
+
+
+#include<stdio.h>
+#include<stdlib.h>
+int findElementCount(int,int[],int);
+int main(){
+	int n=0,flag=0,i,input[20],search=0;
+	int count=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+		scanf("%d",&input[i]);
+		if(input[i]<0)
+			flag=1;
+	}
+	if(flag==1){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	scanf("%d",&search);
+	count = findElementCount(n,input,search);
+	printf("%d",count);
+	getchar();
+	getchar();
+	return 0;
+}
+int findElementCount(int n,int array[],int find){
+	int count=0,i;
+	for(i=0;i<n;i++){
+		if(array[i]==find)
+			count++;
+	}
+	return count;
+}
+
+10.powerOfTwo
+Read the question carefully and follow the input and output format.
+
+Check whether given number is a power of 2 or not .If yes Print 'Yes' else 'No'
+
+Input and Output Format :
+Input consists of an integer number. And output is a single line that displays 'Yes' or 'No'
+
+Print "Number too small" if the number is less than 0
+Print "Number too large" if the number is greater than 32767
+
+Include a function named powerOfTwo(int n) that returns an integer.
+
+
+Sample Input 1:
+3
+Sample Output 1:
+No
+
+Sample Input 2:
+34569
+Sample Output 2:
+Number too large
+#include<stdio.h>
+#include<stdlib.h>
+int powerOfTwo(int n);
+int main(){
+	int number=0,result;
+	scanf("%d",&number);
+	if(number<0)
+		printf("Number too small");
+	else if(number>32767)
+		printf("Number too large");
+	else{
+		result=powerOfTwo(number);
+		if(result==1)
+			printf("yes");
+		else
+			printf("No");
+	}
+	getchar();
+	getchar();
+	return 0;
+}
+int powerOfTwo(int n){
+	int result=0;
+	while (((n % 2) == 0) && n > 1) 
+	n /= 2;
+ return (n == 1);
+}
+
