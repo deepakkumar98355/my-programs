@@ -238,6 +238,54 @@ int findbinary(int number){
 	return 1;
 }
 
+
+or       ----
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+//#include<string.h>
+int convertToDecimal(int);
+//int findbinary(int);
+int main()
+{
+	int num=0,res;
+	scanf("%d",&num);
+	res = convertToDecimal(num);
+	if(res==-1)
+		printf("Invalid input");
+	else
+		printf("%d",res);
+	getchar();
+	getchar();
+	return 0;
+}
+int convertToDecimal(int number)
+{
+	int decimal=0,rem,c=0;
+	//res = findbinary(number);
+	if(number<0 || number>11111)
+		decimal = -1;
+	else
+	{
+	    while(number>0)
+	    {
+		rem=number%10;
+		decimal=decimal+(rem*pow(2,c++));
+		number=number/10;
+	    }
+    }
+
+	return decimal;
+}
+
+
+
+
+
+
+
+
 14.Arithmetic Operation
  
 Write a program to perform a specific arithmetic operation
