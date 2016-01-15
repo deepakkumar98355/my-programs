@@ -1,0 +1,696 @@
+If there are images in this attachment, they will not be displayed.   Download the original attachment
+Write a query to display the average monthly ticket cost for each flight in ABC  Airlines. The query should display the Flight_Id,From_location,To_Location,Month Name as “Month_Name” and average price as “Average_Price”
+
+ 
+
+Display the records sorted in ascending order based on flight id and then by Month Name.
+
+ 
+
+SELECT f.flight_id,
+
+              f.from_location,
+
+              f.to_location,
+
+              fp.Month_Name,
+
+              fp.Average_Price 
+
+FROM  air_flight f,
+
+(
+
+SELECT flight_id,
+
+ MONTHNAME(flight_departure_date) AS Month_Name,
+
+               AVG(price) as Average_Price
+
+FROM air_flight_details
+
+GROUP BY flight_id,
+
+  MONTHNAME(flight_departure_date)
+
+) fp
+
+WHERE f.flight_id = fp.flight_id
+
+and f.airline_name = 'ABC AIRLINES'
+
+order by f.flight_id, fp.Month_Name;
+
+ 
+
+ 
+
+ 
+
+Write a query to display the customer(s) who has/have booked least number of tickets in ABC Airlines. The Query should display profile_id, customer’s first_name, Address and Number of tickets booked as “No_of_Tickets”
+
+ 
+
+Display the records sorted in ascending order based on customer's first name.
+
+SELECT cus.profile_id,
+
+              cus.first_name,
+
+              cus.address,
+
+              mintkt.No_of_Tickets
+
+FROM  air_passenger_profile cus,
+
+           (SELECT MIN(s.Tot_No_of_Tickets) AS No_of_Tickets
+
+            FROM   (SELECT profile_id,
+
+                                         COUNT(ticket_id) AS Tot_No_of_Tickets
+
+                           FROM   air_ticket_info
+
+                           GROUP BY profile_id
+
+                          ) s
+
+           ) mintkt,
+
+          ( SELECT profile_id,
+
+                         COUNT(ticket_id) AS Tot_No_of_Tickets
+
+            FROM  air_ticket_info
+
+            GROUP BY profile_id
+
+          ) tottkt
+
+WHERE mintkt.No_of_Tickets = tottkt.Tot_No_of_Tickets
+
+AND      cus.profile_id = tottkt.profile_id
+
+order by cus.first_name;
+
+ 
+
+ 
+
+Write a query to display the number of flight services between locations in a month. The Query should display From_Location, To_Location, Month as “Month_Name” and number of flight services as “No_of_Services”. 
+
+Hint: The Number of Services can be calculated from the number of scheduled departure dates of a flight.
+
+The records should be displayed in ascending order based on From_Location and then by To_Location and then by month name.
+
+SELECT f.from_location,
+
+              f.to_location,
+
+             s.Month_Name,
+
+             SUM(s.No_of_Services) AS No_of_Services
+
+FROM air_flight f JOIN
+
+(SELECT flight_id,
+
+              MONTHNAME(flight_departure_date) AS Month_Name,
+
+              COUNT(flight_departure_date) AS No_of_Services
+
+FROM  air_flight_details
+
+GROUP BY flight_id,
+
+                   MONTHNAME(flight_departure_date)
+
+) s
+
+ON s.flight_id  = f.flight_id
+
+GROUP BY f.from_location,
+
+                f.to_Location,
+
+               s.Month_Name
+
+order by f.from_location,
+
+                f.to_Location, s.Month_Name;
+
+ 
+
+ 
+
+Write a query to display the customer(s) who has/have booked maximum number of tickets in ABC Airlines. The Query should display profile_id, customer’s first_name, Address and Number of tickets booked as “No_of_Tickets”
+
+Display the records in ascending order based on customer's first name.
+
+SELECT cus.profile_id,
+
+              cus.first_name,
+
+              cus.address,
+
+              maxtkt.No_of_Tickets as No_of_Tickets
+
+FROM  air_passenger_profile cus,
+
+           (SELECT MAX(s.Tot_No_of_Tickets) AS No_of_Tickets
+
+            FROM   (SELECT profile_id,
+
+                                         COUNT(ticket_id) AS Tot_No_of_Tickets
+
+                           FROM   air_ticket_info
+
+                           GROUP BY profile_id
+
+                          ) s
+
+           ) maxtkt,
+
+          ( SELECT profile_id,
+
+                         COUNT(ticket_id) AS Tot_No_of_Tickets
+
+            FROM  air_ticket_info
+
+            GROUP BY profile_id
+
+          ) tottkt
+
+WHERE maxtkt.No_of_Tickets = tottkt.Tot_No_of_Tickets
+
+AND      cus.profile_id = tottkt.profile_id
+
+order by cus.first_name;
+
+ 
+
+ 
+
+Write a query to display the number of tickets booked from Chennai to Hyderabad. The Query should display passenger profile_id,first_name,last_name, Flight_Id , Departure_Date and  number of tickets booked as “No_of_Tickets”.
+
+ 
+
+Display the records sorted in ascending order based on profile id and then by flight id and then by departure date.
+
+SELECT cus.profile_id,
+
+              cus.first_name,
+
+              cus.last_name,
+
+              tkt.flight_id,
+
+             tkt.flight_departure_date,
+
+             tkt.No_of_Tickets
+
+FROM   air_passenger_profile cus JOIN
+
+(
+
+SELECT profile_id, FLIGHT_ID,FLIGHT_DEPARTURE_DATE,COUNT(ticket_id) AS No_of_Tickets
+
+FROM   air_ticket_info
+
+WHERE  flight_id IN (SELECT flight_id
+
+                        FROM   air_flight
+
+                                    WHERE  from_location = 'Chennai'
+
+         AND    to_location = 'Hyderabad'
+
+     )
+
+GROUP BY profile_id,flight_id,flight_departure_date
+
+)tkt
+
+ON cus.profile_id = tkt.profile_id
+
+order by cus.profile_id, tkt.flight_id, tkt.flight_departure_date;
+
+ 
+
+ 
+
+ 
+
+Write a query to display flight id,from location, to location and ticket price of flights whose departure is in the month of april.
+
+Display the records sorted in ascending order based on flight id and then by from location.
+
+SELECT fd.flight_id,af.FROM_LOCATION,af.TO_LOCATION, fd.price FROM air_flight_details fd join air_flight af on af.FLIGHT_ID=fd.FLIGHT_ID where substring(fd.flight_departure_date,6,2)='04' order by fd.flight_id, af.FROM_LOCATION;
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Write a query to display the average cost of the tickets in each flight on all scheduled dates. The query should display flight_id, from_location, to_location and Average price as “Price”.
+
+ 
+
+Display the records sorted in ascending order based on flight id and then by from_location and then by to_location.
+
+SELECT f.flight_id,
+
+              f.from_location,
+
+              f.to_location,
+
+             AVG(fd.Price) AS Price
+
+FROM  air_flight f JOIN
+
+             air_flight_details fd
+
+ON      f.flight_id = fd.flight_id
+
+GROUP BY f.flight_id order by f.flight_id, f.from_location, f.to_location;
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Write a query to display the customers who have booked tickets from Chennai to Hyderabad. The query should display profile_id, customer_name (combine first_name & last_name with comma in b/w), address of the customer.
+
+ 
+
+Give an alias to the name as customer_name.
+
+Hint: Query should fetch unique customers irrespective of multiple tickets booked.
+
+ 
+
+Display the records sorted in ascending order based on profile id.
+
+SELECT DISTINCT c.profile_id,
+
+              CONCAT(c.first_name, ',',c.last_name) AS customer_name,
+
+              c.address
+
+FROM  air_passenger_profile c
+
+JOIN    air_ticket_info t
+
+ON      c.profile_id = t.profile_id
+
+JOIN   air_flight f
+
+ON     f.flight_id = t.flight_id
+
+AND  f.from_location = 'Chennai'
+
+AND  f.to_location = 'Hyderabad'
+
+order by c.profile_id;
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Write a query to display profile id of the passenger(s) who has/have booked maximum number of tickets.
+
+In case of multiple records, display the records sorted in ascending order based on profile id.
+
+ 
+
+SELECT profile_id FROM air_ticket_info group by profile_id having count(profile_id)>=all(select count(profile_id) from air_ticket_info group by profile_id) order by profile_id;
+
+ 
+
+ 
+
+ 
+
+Write a query to display the total number of tickets as “No_of_Tickets” booked in each flight in ABC Airlines. The Query should display the flight_id, from_location, to_location and the number of tickets.
+
+Display only the flights in which atleast 1 ticket is booked.
+
+Display the records sorted in ascending order based on flight id.
+
+ 
+
+SELECT f.flight_id,
+
+          f.from_location,
+
+          f.to_location,
+
+         COUNT(t.ticket_id) AS No_of_Tickets
+
+FROM air_ticket_info t JOIN
+
+            air_flight f
+
+ON      f.flight_id = t.flight_id
+
+where AIRLINE_NAME = 'ABC AIRLINES'
+
+GROUP by f.flight_id
+
+ORDER by f.flight_id;
+
+ 
+
+ 
+
+ 
+
+Write a query to display the no of services offered by each flight and the total price of the services. The Query should display flight_id, number of services as “No_of_Services” and the cost as “Total_Price” in the same order.
+
+ 
+
+Order the result by Total Price in descending order and then by flight_id in descending order.
+
+ 
+
+Hint:The number of services can be calculated from the number of scheduled departure dates of the flight
+
+ 
+
+SELECT flight_id,
+
+             COUNT(flight_departure_date) AS No_of_Services,
+
+             SUM(price) AS Total_Price
+
+FROM  air_flight_details
+
+GROUP BY flight_id order by total_price DESC, flight_id DESC;
+
+ 
+
+ 
+
+ 
+
+Write a query to display the number of passengers who have travelled in each flight in each scheduled date. The Query should display flight_id, flight_departure_date and the number of passengers as “No_of_Passengers” in the same order.
+
+Display the records sorted in ascending order based on flight id and then by flight departure date.
+
+SELECT flight_id,
+
+              flight_departure_date,
+
+              COUNT(ticket_id) AS No_of_Passengers
+
+FROM   air_ticket_info
+
+GROUP BY flight_id,
+
+                   flight_departure_date
+
+ORDER BY flight_id, flight_departure_date;
+
+ 
+
+ 
+
+Write a query to display profile id of passenger(s) who booked minimum number of tickets.
+
+In case of multiple records, display the records sorted in ascending order based on profile id.
+
+ 
+
+SELECT profile_id FROM air_ticket_info group by profile_id having count(profile_id)<=all(select count(profile_id) from air_ticket_info group by profile_id) order by profile_id;
+
+ 
+
+ 
+
+ 
+
+Write a query to display unique passenger profile id,first name,mobile number and email address of passengers who booked ticket to travel from HYDERABAD to CHENNAI.
+
+ 
+
+Display the records sorted in ascending order based on profile id.
+
+ 
+
+SELECT distinct ti.PROFILE_ID,pi.first_name,pi.mobile_number, pi.email_id FROM air_ticket_info ti join air_passenger_profile pi on pi.profile_id=ti.profile_id where flight_id in (SELECT FLIGHT_ID FROM air_flight where FROM_LOCATION ='HYDERABAD' and to_location ='CHENNAI') order by ti.profile_id
+
+ 
+
+ 
+
+ 
+
+Write a query to intimate the passengers who are boarding Chennai to Hyderabad Flight on 6th May 2013 stating the delay of 1hr in the departure time. The Query should display the passenger’s profile_id, first_name,last_name, flight_id, flight_departure_date,  actual departure time , actual arrival time , delayed departure time as "Delayed_Departure_Time", delayed arrival time as "Delayed_Arrival_Time" Hint: Distinct  Profile ID should be displayed irrespective of multiple tickets booked by the same profile.
+
+ 
+
+Display the records sorted in ascending order based on passenger's profile id.
+
+ 
+
+SELECT DISTINCT p.profile_id,
+
+p.first_name,
+
+p.last_name,
+
+t.flight_id,
+
+t.flight_departure_date,
+
+f.departure_time,
+
+f.arrival_time,
+
+ADDTIME(f.departure_time,'01:00:00') AS Delayed_Departure_Time,
+
+ADDTIME(f.arrival_time,'01:00:00') AS Delayed_Arrival_Time
+
+FROM air_passenger_profile p
+
+JOIN air_ticket_info t
+
+ON p.profile_id = t.profile_id
+
+AND t.flight_departure_date = '2013-05-06'
+
+JOIN air_flight f
+
+ON t.flight_id = f.flight_id
+
+AND f.from_location = 'Chennai'
+
+AND f.to_location = 'Hyderabad'
+
+order by p.profile_id;
+
+ 
+
+ 
+
+ 
+
+Write a query to display the number of tickets as “No_of_Tickets” booked by Kochi Customers. The Query should display the Profile_Id, First_Name, Base_Location and number of tickets booked.
+
+ 
+
+Hint: Use String functions to get the base location of customer from their Address and give alias name as “Base_Location”
+
+ 
+
+Display the records sorted in ascending order based on customer first name.
+
+ 
+
+SELECT cus.profile_id,
+
+              cus.First_name,       
+
+              SUBSTR(cus.address,INSTR(cus.address,',')+1,INSTR(cus.address,'-')- INSTR(cus.address,',')-1)
+
+              AS Base_Location,
+
+             s.No_of_Tickets
+
+FROM  air_passenger_profile cus JOIN
+
+(
+
+SELECT profile_id,
+
+           COUNT(ticket_id) AS No_of_Tickets
+
+FROM  air_ticket_info
+
+GROUP BY profile_id
+
+)s
+
+ON s.profile_id = cus.profile_id
+
+AND  SUBSTR(cus.address,INSTR(cus.address,',')+1,INSTR(cus.address,'-')- INSTR(cus.address,',')-1) = 'Kochi'
+
+order by first_name;
+
+ 
+
+ 
+
+ 
+
+Write a query to display the flight_id, from_location, to_location, number of Services as “No_of_Services” offered in the month of May.
+
+ 
+
+Hint:The number of services can be calculated from the number of scheduled departure dates of the flight
+
+ 
+
+Display the records sorted in ascending order based on flight id.
+
+ 
+
+SELECT f.flight_id,
+
+              f.from_location,
+
+              f.to_location,
+
+             s.No_of_Services
+
+FROM  air_flight f JOIN
+
+(
+
+SELECT flight_id,
+
+             COUNT(flight_departure_date) AS No_of_Services
+
+FROM  air_flight_details
+
+WHERE MONTH(flight_departure_date) = 5
+
+GROUP BY flight_id
+
+) s
+
+ON f.flight_id = s.flight_id
+
+order by f.flight_id;
+
+ 
+
+ 
+
+ 
+
+Write a query to display profile id,last name,mobile number and email id of passengers whose base location is chennai.
+
+ 
+
+Display the records sorted in ascending order based on profile id.
+
+ 
+
+SELECT PROFILE_ID,LAST_NAME,MOBILE_NUMBER,EMAIL_ID FROM air_passenger_profile where address like '%CHENNAI%' ORDER BY PROFILE_ID;
+
+ 
+
+ 
+
+ 
+
+Write a query to display number of flights between 6.00 AM and 6.00 PM from chennai. Hint Use FLIGHT_COUNT as alias name.
+
+ 
+
+SELECT count(flight_id) FLIGHT_COUNT FROM air_flight where FROM_LOCATION='CHENNAI' and departure_time between '06:00:00' and '18:00:00';
+
+ 
+
+ 
+
+ 
+
+Write a query to display unique profile id,first name , email id and contact number of passenger(s) who travelled on flight with id 3148. Display the records sorted in ascending order based on first name.
+
+ 
+
+SELECT distinct ti.PROFILE_ID,pi.first_name,pi.email_id,pi.mobile_number FROM air_ticket_info ti join air_passenger_profile pi on pi.profile_id=ti.profile_id where flight_id=3148 order by pi.first_name;
+
+ 
+
+ 
