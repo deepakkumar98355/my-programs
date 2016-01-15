@@ -1,0 +1,764 @@
+11.Count of 3 Multiples
+ 
+Write a program to find the count of 3 multiples in a given input integer array.
+ 
+Include a function named divisibleBy3 that accepts 2 arguments and returns an int. The first argument is the input array and the second argument is an int that corresponds to the size of the array. The function returns an int that corresponds to the count of 3 multiples.
+ 
+If the size of the array is negative or if any element in the array is negative, print “Invalid Input” and terminate the program.
+ 
+Input and Output Format:
+Input consists of n+1 integers. The first integer corresponds to n, the number of elements in the array. The next 'n' integers correspond to the elements in the array.
+Output consists of an integer that corresponds to the count of 3 multiples
+ 
+Assume that the maximum number of elements in the array is 20.
+ 
+Sample Input 1:
+8
+1
+6
+3
+5
+61
+80
+102
+9
+ 
+Sample Output 1:
+4
+ 
+Sample Input 2:
+-5
+ 
+Sample Output 2:
+Invalid Input
+ 
+Sample Input 3:
+5
+23
+2
+-200
+ 
+Sample Output 3:
+Invalid Input
+ 
+
+#include<stdio.h>
+#include<stdlib.h>
+int divisibleBy3(int[],int);
+int main(){
+	int n=0,i,flag=0,input[20],count=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+	scanf("%d",&input[i]);
+	if(input[i]<0)
+		flag=1;
+	}
+	if(flag==1){
+		printf("Invalid input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	count = divisibleBy3(input,n);
+	printf("%d",count);
+	getchar();
+	getchar();
+	return 0;
+}
+int divisibleBy3(int array[],int size){
+	int count=0,i;
+	for(i=0;i<size;i++){
+		if(array[i]%3==0)
+			count++;
+	}
+	return count;
+}
+12.Odd Even Average
+ 
+The Owner of a block visited the Layout and found that he has some plot numbers of his own and some are odd numbers and some are even numbers. He is maintaining the details in a file in the system. For the password protection our owner has followed one formula. He calculated the sum of his even numbers plot and sum of odd numbers plot and found the average of those two and he used that average as his password for the details file. Find the password that our owner has arrived.
+ 
+Include a function named avgOddEvenSum that accepts 2 arguments and returns a float. The first argument is the input array and the second argument is an int that corresponds to the size of the array. The function returns a float that corresponds to the average of the array.
+ 
+If the size of the array is negative or if any element in the array is negative , print “Invalid Input” and terminate the program.
+ 
+Input and Output Format:
+Input consists of n+1 integers. The first integer corresponds to n, the number of elements in the array. The next 'n' integers correspond to the elements in the array.
+Output consists of a floating point number that corresponds to the average. It is displayed correct to 2 decimal places.
+Assume that the maximum size of the array is 20.
+ 
+Sample Input 1:
+5
+1
+2
+3
+4
+5
+ 
+Sample Output 1:
+7.50
+ 
+Sample Input 2:
+-5
+ 
+Sample Output 2:
+Invalid Input
+ 
+Sample Input 3:
+5
+23
+2
+-5
+ 
+Sample Output 3:
+Invalid Input
+
+#include<stdio.h>
+#include<stdlib.h>
+float avgOddEvenSum(int[],int);
+int main(){
+	int n=0,i,flag=0,input[20];
+	float avg=0.0f;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+	scanf("%d",&input[i]);
+	if(input[i]<0)
+		flag=1;
+	}
+	if(flag==1){
+		printf("Invalid input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	avg = avgOddEvenSum(input,n);
+	printf("%0.2f",avg);
+	getchar();
+	getchar();
+	return 0;
+}
+float avgOddEvenSum(int array[],int size){
+	float avg;
+	int i,sumodd=0,sumeven=0;
+	for(i=0;i<size;i++){
+		if(array[i]%2==0)
+			sumeven=sumeven+array[i];
+		else
+			sumodd=sumodd+array[i];
+	}
+	avg = float(sumeven+sumodd)/2.0f;
+	return avg;
+}
+
+13.Decimal Conversion
+ 
+Write a program to convert a given input binary number to decimal.
+ 
+Include a function named convertToDecimal that accepts an integer argument and returns an integer that corresponds to the decimal representation of the input number. If the input value is not a binary value or if the input is negative or if the input is greater than 11111, the function returns -1.
+ 
+If the function returns -1, print Invalid Input.
+ 
+Input and Output Format:
+Input consists of a single integer that corresponds to the binary representation of a number.
+Output consists of a single integer that corresponds to the decimal equivalent of the given number.
+Refer sample output for formatting specifications.
+ 
+ 
+Sample Input 1:
+1100
+ 
+Sample Output 1:
+12
+ 
+Sample Input 2:
+101010
+ 
+Sample Output 2:
+Invalid Input
+ 
+Sample Input 3:
+1201
+ 
+Sample Output 3:
+Invalid Input
+ 
+#include<stdio.h>
+#include<stdlib.h>
+#include<string>
+int convertToDecimal(int);
+int findbinary(int);
+int main(){
+	int num=0,res=0;
+	scanf("%d",&num);
+	res = convertToDecimal(num);
+	if(res==-1)
+		printf("Invalid input");
+	else
+		printf("%d",res);
+	getchar();
+	getchar();
+	return 0;
+}
+int convertToDecimal(int number){
+	int decimal=0,res,j=1,rem;
+	res = findbinary(number);
+	if(res==0 || number<0 || number>11111)
+		decimal = -1;
+	else{
+		while(number!=0){
+         rem=number%10;
+        decimal=decimal+rem*j;
+        j=j*2;
+        number=number/10;
+    }
+	}
+	return decimal;
+}
+
+int findbinary(int number){
+	int dv;
+	while(number!=0)
+	{
+		dv=number%10;
+		if(dv>1)
+			return 0;
+		number=number/10;
+	}
+	return 1;
+}
+
+14.Arithmetic Operation
+ 
+Write a program to perform a specific arithmetic operation
+ 
+Include a function named performArithmeticOperation that accepts 3 integer arguments and returns an integer that corresponds to the result. The first and second arguments correspond to the input numbers and the third argument corresponds to the choice of arithmetic operation.
+ 
+If argument 3 =1, calculate the sum of input1 and input2
+If argument 3 =2, calculate the difference of input1 and input2
+If argument 3 =3, calculate the product of input1 and input2
+If argument 3 =4, calculate the quotient of input1 divided by input 2
+ 
+If the first two argument's values is negative or greater than 32767 , the function returns -1.
+If the third argument's value is not in the range 1 to 4, the function returns -1.
+ 
+If the function returns -1, print Invalid Input.
+ 
+Input and Output Format:
+Input consists of 3 integers.
+Output consists of an integer.
+Refer sample output for formatting specifications.
+ 
+ 
+Sample Input 1:
+4
+12
+3
+ 
+Sample Output 1:
+48
+ 
+Sample Input 2:
+-67
+2
+1
+ 
+Sample Output 2:
+Invalid Input
+ #include<stdio.h>
+#include<stdlib.h>
+#include<string>
+int performArithmeticOperation(int,int,int);
+int main(){
+	int a,b,c,res=0;
+	scanf("%d%d%d",&a,&b,&c);
+	res=performArithmeticOperation(a,b,c);
+	if(res==-1)
+		printf("Invalid input");
+	else
+		printf("%d",res);
+	getchar();
+	getchar();
+	return 0;
+}
+int performArithmeticOperation(int a,int b,int choice){
+	int result=0;
+	if(a<0 || b<0 || a>32767 || b>32767)
+		result = -1;
+	else if((choice<1)||(choice>4))
+		result = -1;
+	else
+	{
+		switch(choice){
+		case 1:
+			result = a+b;
+			break;
+		case 2:
+			result = a-b;
+			break;
+		case 3:
+			result = a*b;
+			break;
+		case 4:
+			result = a/b;
+			break;
+		}
+	}
+	return result;		
+}
+
+
+
+15.digitFactorial
+Read the question carefully and follow the input and output format.
+
+In a given input number , find out the factorial of each individual digit and assign it to output array.
+
+Input and Output Format:
+Input consists of a single integer. Output consists of an Integer array, the individual factorials.
+
+Print "Number too large" when the given input numbers is greater than 32767 .
+Print "Number too small" when the given input is a negative number.
+
+Include a function named digitFactorial(int number) whose return type is void.
+The output array is stored in a global variable named factorial.
+
+Sample Input 1:
+123
+
+Sample Output 1:
+1
+2
+6
+
+Sample Input 2:
+-2526
+
+Sample Output 2:
+Number too small
+#include<stdio.h>
+#include<stdlib.h>
+void digitFactorial(int number);
+int factorial[20];
+int main(){
+	int num=0;
+	scanf("%d",&num);
+	if(num>32767)
+		printf("Number too large");
+	else if(num<0)
+		printf("Number too small");
+	else{
+		digitFactorial(num);
+	}
+	getchar();
+	getchar();
+	return 0;
+}
+void digitFactorial(int number){
+	int n,i,fact,k=0;
+	while(number!=0){
+		n=number%10;
+		fact=1;
+		for(i=1;i<=n;i++)
+			fact = fact * i;
+		factorial[k]=fact;
+		k++;
+		number=number/10;
+	}
+	for(i=k-1;i>=0;i--)
+		printf("%d\n",factorial[i]);
+}
+
+
+16.searchKeys
+Read the question carefully and follow the input and output format.
+
+Given an integer array, first index represents the key & second index represents the value. Find keys for the given value.
+
+Input and Output Format:
+First line of input consists of n, the number of elements. Next n lines correspond to the array elements. The next line consistts of an integer that represents the value to be searched. 
+Output consist of an integer array.
+
+1) Print "Invalid array size" when size of the array is negative and terminate the program.
+2) Print "Invalid input" when there is any negative numbers available in the input array and terminate the program.
+3) Print "Key not found" when there is no keys found.
+
+Include a function named searchKeys(int array[], int size) whose return type is void.
+The output array is stored in a global variable named found.
+
+Sample Input 1:
+8
+1
+4
+2
+4
+3
+4
+5
+6
+4
+
+Sample Output 1:
+1
+2
+3
+
+Sample Input 2:
+5
+5
+6
+7
+8
+9
+-5
+
+Sample Output 2:
+Key not found
+#include<stdio.h>
+#include<stdlib.h>
+void searchKeys(int array[], int size,int search);
+int found[20];
+int main(){
+	int n,input[20],search;
+	int i,flag=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid array size");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+		scanf("%d",&input[i]);
+		if(input[i]<0)
+			flag=1;
+	}
+	if(flag==1){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	scanf("%d",&search);
+	searchKeys(input,n,search);
+	
+	return 0;
+}
+void searchKeys(int array[], int size,int search){
+	int i,k=0,flag=0;
+	for(i=1;i<size;i=i+1){
+		if(array[i]==search){
+			flag=1;
+			found[k]=array[i-1];
+			k++;
+		}
+	}
+	if(flag==0)
+		printf("Key not found");
+	else
+	{
+		for(i=0;i<k;i++)
+			printf("%d\n",found[i]);
+	}
+	getchar();
+	getchar();
+}
+
+17.passCount
+Read the question carefully and follow the input and output format.
+
+Given a input array, First index Represents RollNo second index represents Mark and so on.  Write a program to find the number of students who had cleared the exam.
+
+Note : If marks >=70 then He /she Cleared the exam. Array size is always even.
+
+Input and Output Format :
+
+First line of input consists of n, the number of elements. Next n lines correspond to the array elements. Output consist of an integer,
+
+1) Print "Invalid array size" when size of the array is a negative number and terminate the program.
+2) Print "Invalid input" when there is any negative number available in the input array and terminate the program.
+
+Include a function named passCount(int array[], int size) whose return type is an integer , the count.
+
+Sample Input 1:
+8
+1
+70
+2
+55
+3
+75
+4
+80
+
+Sample Output 1:
+3
+
+Sample Input 2:
+5
+6
+2
+8
+-2
+Sample Output 2:
+Invalid input
+
+#include<stdio.h>
+#include<stdlib.h>
+int passCount(int array[], int size);
+int found[20];
+int main(){
+	int n,input[20],count;
+	int i,flag=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid array size");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+		scanf("%d",&input[i]);
+		if(input[i]<0)
+			flag=1;
+	}
+	if(flag==1){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	count = passCount(input,n);
+	printf("%d",count);
+	getchar();
+	getchar();
+	return 0;
+}
+int passCount(int array[], int size){
+	int count=0,i;
+	for(i=1;i<size;i=i+1){
+		if(array[i]>=70)
+			count++;
+	}
+	return count;
+}
+
+18.5 Multiples --- Average
+ 
+Write a program to find the average of multiples of 5 upto 'n'. n is given as input.
+ 
+Include a function named findAverageBy5s that accepts an integer argument and returns a float that corresponds to the average of multiples of 5.
+ 
+If the input value is negative or greater than 32767, print Invalid Input and terminate the program.
+ 
+Input and Output Format:
+Input consists of a single integer.
+Output consists of a floating point number. Output is displayed correct to 2 decimal places.
+Refer sample output for formatting specifications.
+ 
+ 
+Sample Input 1:
+10
+ 
+Sample Output 1:
+7.50
+ 
+Sample Input 2:
+-67
+ 
+Sample Output 2:
+Invalid Input
+ 
+#include<stdio.h>
+#include<stdlib.h>
+float findAverageBy5s(int);
+int main(){
+	int num=0;
+	float avg;
+	scanf("%d",&num);
+	if(num<0 || num>32767){
+		printf("Invalid input");
+		exit(0);
+	}
+	avg = findAverageBy5s(num);
+	printf("%0.2f",avg);
+	getchar();
+	getchar();
+	return 0;
+}
+float findAverageBy5s(int number){
+	float avg=0.0f;
+	int i,sum=0,count=0;
+	for(i=5;i<=number;i++){
+		if(i%5==0){
+			sum=sum+i;
+			count++;
+		}
+	}
+	avg = (float)sum/count;
+	return avg;
+}
+
+ 
+
+19.Sum of Odd Digits
+ 
+Write a program to find the sum of the odd digits in a number.
+ 
+Include a function named sumOddDigits that accepts an integer argument and returns an integer that corresponds to the sum of the odd digits. The function returns -1 if the input is less than zero or if it is greater than 32767.
+ 
+If the function returns -1, print “Invalid Input”.
+ 
+Input and Output Format:
+ 
+The input consists of an integer.
+The output consists of an integer that corresponds to the sum of the odd digits in the number.
+ 
+Sample Input 1:
+3487
+ 
+Sample Ouput 1:
+10
+ 
+Sample Input 2:
+-8
+ 
+Sample Output 2:
+Invalid Input
+ 
+
+#include<stdio.h>
+#include<stdlib.h>
+int sumOddDigits(int);
+int main(){
+	int num=0,res=0;
+	scanf("%d",&num);
+	res = sumOddDigits(num);
+	if(res==-1)
+		printf("Invalid input");
+	else
+		printf("%d",res);
+	getchar();
+	getchar();
+	return 0;
+}
+int sumOddDigits(int number){
+	int sum=0,rem=0;
+	if(number<0 || number>32767)
+		sum=-1;
+	else{
+		while(number!=0){
+			rem=number%10;
+			if(rem%2!=0)
+				sum=sum+rem;
+			number=number/10;
+		}
+	}
+	return sum;
+}
+
+20.Largest Array
+ 
+Write a program which takes two arrays of the same size as a input and compares the first element of first array with the first element of second array and stores the largest of these into the first element of the output array. Repeat the process till the last element of the first array is checked with the last element of the second array.
+ 
+Include a function named largestArray that accepts 3 arguments and its return type is void. The first argument is input array 1, the second argument is  input array 2 and the third argument is an int that corresponds to the size of the array. The output array is stored in a global variable named output1.
+ 
+If the size of the array is negative or if any element in the array is negative, print “Invalid Input” and terminate the program.
+ 
+Input and Output Format:
+Input consists of n+1 integers. The first integer corresponds to n, the number of elements in the array. The next 'n' integers correspond to the elements in the array.
+Output consists of the largest array.
+Assume that the maximum number of elements in the array is 20.
+ 
+Sample Input 1:
+4
+2
+1
+3
+4
+1
+9
+2
+8
+ 
+Sample Output 1:
+2
+9
+3
+8
+ 
+ 
+Sample Input 2:
+-5
+ 
+Sample Output 2:
+Invalid Input
+ 
+Sample Input 3:
+5
+23
+2
+-200
+ 
+Sample Output 3:
+Invalid Input
+#include<stdio.h>
+#include<stdlib.h>
+void largestArray(int[],int[],int);
+int output1[20];
+int main(){
+	int n=0,flag=0,i,input1[20],input2[20];
+	int count=0,flag1=0;
+	scanf("%d",&n);
+	if(n<0){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	for(i=0;i<n;i++){
+		scanf("%d",&input1[i]);
+		if(input1[i]<0)
+			flag=1;
+	}
+	for(i=0;i<n;i++){
+		scanf("%d",&input2[i]);
+		if(input2[i]<0)
+			flag1=1;
+	}
+	if(flag==1 || flag1==1){
+		printf("Invalid Input");
+		getchar();
+		getchar();
+		exit(0);
+	}
+	largestArray(input1,input2,n);
+	return 0;
+}
+void largestArray(int array1[],int array2[],int n){
+	int i;
+	for(i=0;i<n;i++){
+		if(array1[i]>array2[i]){
+			output1[i]=array1[i];
+		}
+		else{
+			output1[i]=array2[i];
+		}
+	}
+	for(i=0;i<n;i++){
+		printf("%d\n",output1[i]);
+	}
+	getchar();
+	getchar();
+}
+
